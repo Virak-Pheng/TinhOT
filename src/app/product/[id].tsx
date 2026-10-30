@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 25,
     left: 0,
     right: 0,
     backgroundColor: '#ffffff',
