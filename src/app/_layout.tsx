@@ -1,18 +1,34 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
-
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#4f46e5', // Indigo header
+        },
+        headerTintColor: '#ffffff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+    >
+      <Stack.Screen 
+        name="index" 
+        options={{ title: 'TinhOT - Product Catalog' }} 
+      />
+      <Stack.Screen 
+        name="product/[id]" 
+        options={{ title: 'Product Details' }} 
+      />
+      <Stack.Screen 
+        name="cart" 
+        options={{ title: 'Shopping Cart' }} 
+      />
+      <Stack.Screen 
+        name="checkout" 
+        options={{ title: 'Checkout' }} 
+      />
+    </Stack>
   );
 }
