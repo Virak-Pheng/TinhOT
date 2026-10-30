@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useCart } from '../../context/CartContext';
 import { Ionicons } from '@expo/vector-icons';
 import { Product } from '../../types/product';
 import { fetchProductById } from '../../services/api';
@@ -17,6 +18,8 @@ import { fetchProductById } from '../../services/api';
 export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+
+  const { addToCart } = useCart();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,11 +48,13 @@ export default function ProductDetailScreen() {
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
   const decrementQuantity = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  // Handle Add to Cart action (we will wire this to global state in Step 7)
-  const handleAddToCart = () => {
+ const handleAddToCart = () => {
     if (!product) return;
     
-    // For now, show an alert confirming addition. In Step 7, we will save this to cart state!
+    // 1. THIS IS THE CRITICAL LINE THAT SAVES IT TO THE CART:
+    addToCart(product, quantity);
+
+    // 2. Then show the confirmation alert
     Alert.alert(
       'Added to Cart!',
       `${quantity} x ${product.name} added successfully.`,
